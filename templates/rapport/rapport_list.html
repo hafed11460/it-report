@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="d-flex flex-row mt-4 justify-content-between  ">
+
+        <form class="d-flex flex-row bg-white border p-3" action="{% url 'rapport:rapport-filter' %}">
+          {% csrf_token %}
+            <div class="d-flex flex-column">
+              <div class="mx-1">
+                <input type="text" name="q" class="form-control form-control-sm" palceholder="Search">
+              </div>
+
+              <div class="d-flex flex-row">
+              <div class="m-1">
+                <input type="date" name="startdate" class="form-control form-control-sm">
+              </div>
+              <div class="m-1">
+                <input type="date" name="enddate" class="form-control form-control-sm">
+              </div>
+            </div>
+            </div>
+            <button class="btn btn-success btn-sm ">Filter</button>
+        </form>
+
+        <form class="d-flex flex-row bg-white border p-3" action="{% url 'rapport:rapport-excel' %}">
+          {% csrf_token %}
+            <div class="d-flex flex-column">
+
+              <div class="m-1">
+                <input type="date" name="startdate" class="form-control form-control-sm ">
+              </div>
+
+              <div class="mx-1">
+                <input type="date" name="enddate" class="form-control form-control-sm">
+              </div>
+
+            </div>
+            <button class="btn btn-success ">Excel</button>
+        </form>
+    </div>
+
+
+    <div class=" mt-4  rounded ">
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for post in objects %}
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <div class="border-bottom mb-2">
+                <a class="mr-2 text-decoration-none" href="{% url 'rapport:user-rapports' post.author.id %}">{{ post.author.first_name }}</a>
+                <small> {{ post.date }} {{post.starthour}} </small>
+              </div>
+              <h5 class="card-title">{{ post.title }}</h5>
+              <p class="card-text">{{ post.date }} {{post.starthour}}</p>
+              <p class="card-text">{{ post.description }}</p>
+              <a href="{% url 'rapport:rapport-detail' post.id %}" class="btn btn-primary btn-sm">Read ..</a>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+    </div>
+
+
+      <div class="mt-4">
+          {% if is_paginated %}
+            {% if page_obj.has_previous %}
+              <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+              <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+              {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+              {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+              <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+
+{% endblock content %}

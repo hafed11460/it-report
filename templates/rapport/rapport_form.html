@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container mt-5">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Rapport hebdomadaire</legend>
+                 {% comment %} {{ form|crispy }} {% endcomment %}
+                <div class="row">
+                    <div class="col">
+                        {{ form.title}}
+                        {{ form.title.errors }}
+                    </div>
+
+                </div>
+                <div class="row mt-3">
+                     <div class="col" >
+                        {{ form.date}}
+                        {{ form.date.errors }}
+                    </div>
+                    <div class="col">
+                        {{ form.starthour}}
+                        {{ form.starthour.errors }}
+                    </div>
+                    <div class="col">
+                        {{ form.endhour}}
+                        {{ form.endhour.errors }}
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.description}}
+                        {{ form.description.errors }}
+                    </div>
+                    <div class="col">
+                        {{ form.equipment}}
+                        {{ form.equipment.errors }}
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.state_befor}}
+                        {{ form.state_befor.errors }}
+                    </div>
+                    <div class="col">
+                        {{ form.state_after}}
+                        {{ form.state_after.errors }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.type_di}}
+                        {{ form.type_di.errors }}
+                    </div>
+                    <div class="col">
+                        {{ form.n_di}}
+                        {{ form.n_di.errors }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+
+                    <div class="col ">
+                        {{ form.device_used}}
+                        {{ form.device_used.errors }}
+                    </div>
+                    <div class="col ">
+                        {{ form.note}}
+                        {{ form.note.errors }}
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button class="btn btn-outline-info" type="submit">Create</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock content %}
