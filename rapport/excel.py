@@ -14,27 +14,30 @@ import concurrent.futures
 import xlsxwriter
 from datetime import datetime,timedelta
 import io
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-class ToExcelFileView(View):
+class ToExcelFileView(LoginRequiredMixin,View):
     template_name = 'rapport/rapport_list.html'
     # queryset = Switch.objects.all()
-
-
+    login_url = '/login/'
     def get(self, request, format=None):
+        user = request.user
         startDate = request.GET.get('startdate','')
         endDate = request.GET.get('enddate','')
         if not startDate:
-            date =datetime.today().strftime('%Y-%m-%d')
+            startDate =datetime.today().strftime('%Y-%m-%d')
+        if not endDate:
+            endDate =datetime.today().strftime('%Y-%m-%d')
         response = HttpResponse(content_type='application/octet-stream')
         response['Content-Disposition'] = 'attachment; filename=your_template_name.xlsx'
-        excel_file = createExcelFile(startDate,endDate)
+        excel_file = createExcelFile(user,startDate,endDate)
         response.write(excel_file)
         return response
 
 
 header = ['N°','DATE','HEURE','DESCRIPTION DE L\'INTERVENTION','EQUIPEMENT','ETAT APRES L\'INTERVENTION','DUREE D\'INTERVENTION','TYPE DE LA DEMANDE','N° DI','PIECES UTILISEES','OBSERVATION']
 
-def createExcelFile(startDate,endDate):
+def createExcelFile(user,startDate,endDate):
     # employees = Employee.objects.all()
     output      = io.BytesIO()
     workbook = xlsxwriter.Workbook(output)
@@ -103,7 +106,7 @@ def createExcelFile(startDate,endDate):
         worksheet.write(row,col,str(day) ,headerCell)
         col +=1
 
-    rapports = Rapport.objects.filter(date__range=[startDate,endDate])
+    rapports = Rapport.objects.filter(author=user,date__range=[startDate,endDate])
     di_type = dict(Rapport.YEAR_IN_SCHOOL_CHOICES)
     row = 1
     hour_format = '%H:%M:%S'

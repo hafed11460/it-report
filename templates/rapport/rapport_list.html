@@ -2,7 +2,7 @@
 {% block content %}
     <div class="d-flex flex-row mt-4 justify-content-between  ">
 
-        <form class="d-flex flex-row bg-white border p-3" action="{% url 'rapport:rapport-filter' %}">
+        <form class="d-flex flex-row bg-white border p-3 rounded" action="{% url 'rapport:rapport-filter' %}">
           {% csrf_token %}
             <div class="d-flex flex-column">
               <div class="mx-1">
@@ -18,10 +18,12 @@
               </div>
             </div>
             </div>
-            <button class="btn btn-success btn-sm ">Filter</button>
+              <div class="">
+                <button class="btn btn-success btn-sm ">Filter</button>
+              </div>
         </form>
 
-        <form class="d-flex flex-row bg-white border p-3" action="{% url 'rapport:rapport-excel' %}">
+        <form class="d-flex flex-row bg-white border p-3 rounded" action="{% url 'rapport:rapport-excel' %}">
           {% csrf_token %}
             <div class="d-flex flex-column">
 
@@ -34,7 +36,9 @@
               </div>
 
             </div>
-            <button class="btn btn-success ">Excel</button>
+             <div class="m-1">
+                <button class="btn btn-success btn-sm ">Excel </button>
+              </div>
         </form>
     </div>
 
@@ -46,7 +50,7 @@
           <div class="card">
             <div class="card-body">
               <div class="border-bottom mb-2">
-                <a class="mr-2 text-decoration-none" href="{% url 'rapport:user-rapports' post.author.id %}">{{ post.author.first_name }}</a>
+                <a class="mr-2 text-decoration-none" href="{% url 'rapport:user-rapports' post.author.id %}"> <h5>{{ post.author.first_name }}</h5></a>
                 <small> {{ post.date }} {{post.starthour}} </small>
               </div>
               <h5 class="card-title">{{ post.title }}</h5>

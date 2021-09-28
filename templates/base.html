@@ -22,17 +22,17 @@
             <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                <a class="nav-link " aria-current="page" href="{% url 'rapport:rapport-list' %}"><i class="fas fa-list"></i> Repport List </a>
+                <a class="nav-link " aria-current="page" href="{% url 'rapport:rapport-list' %}"><i class="fas fa-list"></i> Repports</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'rapport:rapport-create' %}"><i class="fas fa-plus-circle"></i> Add Rapport</a>
+                    <a class="nav-link" href="{% url 'rapport:rapport-create' %}"><i class="fas fa-plus-circle"></i> Rapport</a>
                 </li>
             </ul>
 
             <ul class="navbar-nav  ms-auto">
                 {% if request.user.is_authenticated %}
                   <li class="nav-item">
-                      <a class="nav-link" href="#"><i class="fas fa-lg rounded  fa-user"></i> {{ request.user.first_name }}</a>
+                      <a class="btn btn-dark btn-sm  mx-2"  href="#"><i class="fas fa-lg rounded  fa-user"></i> {{ request.user.first_name }}</a>
                   </li>
                   <li class="nav-item">
                       <a class="btn btn-success btn-sm" href="{% url 'logout' %}">Logout</a>
@@ -43,7 +43,7 @@
                   </li>
 
                   <li class="nav-item">
-                      <a class="nav-link" href="{% url 'register' %}">Register</a>
+                      <a class="btn btn-outline-success mx-2" href="{% url 'register' %}">Register</a>
                   </li>
                 {% endif %}
               </ul>
